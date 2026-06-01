@@ -1,0 +1,51 @@
+#include <cmath>
+#include <stdexcept>
+#include <iostream>
+#include "Aux.h"
+
+#ifndef _Segment_
+
+#define _Segment_
+
+class Segment {
+
+public:
+   double x0;
+   double y0;
+   double x1;
+   double y1;
+
+   Segment() {
+   }
+
+   Segment(double StartX, double StartY, double EndX, double EndY) {
+      x0 = StartX;
+      y0 = StartY;
+      x1 = EndX;
+      y1 = EndY;
+   }
+
+   friend std::ostream& operator<<(std::ostream &os, const Segment &s) {
+      os << floor(s.x0) << " " << floor(s.y0) << " " << floor(s.x1) << " "
+            << floor(s.y1);
+      return os;
+   }
+
+   const double length() {
+      return std::sqrt(std::pow((x1 - x0), 2) + std::pow((y1 - y0), 2));
+   }
+
+   double run() {
+      return x1 - x0;
+   }
+   double rise() {
+      return y1 - y0;
+   }
+   double angle() {
+      return std::atan2(rise(), run());
+   }
+
+   bool collides(Segment &other);
+};
+
+#endif

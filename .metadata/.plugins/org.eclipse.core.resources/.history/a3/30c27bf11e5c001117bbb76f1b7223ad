@@ -1,0 +1,15 @@
+/*
+ * TemplateRecursiveMain.cpp
+ *
+ *  Created on: May 29, 2026
+ *      Author: luap314
+ */
+
+#include "TemplateRecursive.h"
+
+int main() {
+	Integer ints[10];
+	for (int i = 0; i < 10; i++) {ints[i] = Integer(i);}
+
+	return 0;
+}

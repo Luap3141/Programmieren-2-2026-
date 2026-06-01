@@ -1,0 +1,16 @@
+#include "Polygon.h"
+
+Polygon::Polygon(unsigned int color = 0) {
+   this->color = color;
+   this->points = nullptr;
+}
+
+Polygon::Polygon(Polygon &p) {
+   this->color = p.color;
+   if (p.points == nullptr) {
+      return;
+   }
+   while (p.points->next != nullptr) {
+      this->points = {p.poin}
+   }
+}

@@ -1,0 +1,16 @@
+class Segment {
+	int x1;
+	int y1;
+	int x2;
+	int y2;
+public:
+	Segment(int StartX, int StartY, int EndX, int EndY) {
+		x1 = StartX;
+		y1 = StartY;
+		x2 = EndX;
+		y2 = EndY;
+	}
+	void collision{const Segment& A, const Segment& B, int& x, int& y) {
+
+	}
+};

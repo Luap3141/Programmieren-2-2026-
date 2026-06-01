@@ -1,0 +1,44 @@
+#include <cmath>
+#include "Drawing.h"
+
+#ifndef _Aux_
+
+#define _Aux_
+
+using namespace std;
+
+/*
+ * equals(a,b,eps)
+ * checks whether a and b are equal up to tolerance eps
+ */
+bool equals(double a, double b, double eps) {
+   if (abs(a - b) < eps) {
+      return true;
+   }
+   return false;
+}
+
+/*
+ * toPolar(x,y,r,a)
+ * writes polar coordinates of (x,y) into (r,a)
+ */
+void toPolar(double x, double y, double &r, double &a) {
+   a = atan2(y, x);
+   r = sqrt(x * x + y * y);
+}
+void toCartesian(double r, double a, double &x, double &y) {
+   x = r * cos(a);
+   y = r * sin(a);
+}
+
+int color(int PosX, int PosY) {
+   int r = 256 * PosX / compsys::getWidth();
+   int g = 256 * PosY / compsys::getHeight();
+   int b = min(256 * 256 - r * r - g * g, 0);
+   r = r * 0x010000;
+   g = g * 0x000100;
+   b = floor(sqrt(b));
+   return r + g + b;
+}
+
+#endif

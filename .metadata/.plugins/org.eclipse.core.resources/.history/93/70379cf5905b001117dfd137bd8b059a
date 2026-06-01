@@ -1,0 +1,33 @@
+/*
+ * TemplateRecursive.h
+ *
+ *  Created on: May 29, 2026
+ *      Author: luap314
+ */
+
+#ifndef TEMPLATERECURSIVE_H_
+#define TEMPLATERECURSIVE_H_
+
+#include <vector>
+#include <string>
+
+using namespace std;
+
+template<class Ring> class RecPoly {
+	vector<Ring> coeffs;
+	string variable;
+public:
+	RecPoly* clone();
+	string str();
+	static RecPoly* zero();
+	RecPoly* operator-();
+	RecPoly* operator+(RecPoly &other);
+	RecPoly* operator*(RecPoly &other);
+	RecPoly* operator==(RecPoly &other);
+	int degree();
+	void sanitize();
+};
+
+
+
+#endif /* TEMPLATERECURSIVE_H_ */

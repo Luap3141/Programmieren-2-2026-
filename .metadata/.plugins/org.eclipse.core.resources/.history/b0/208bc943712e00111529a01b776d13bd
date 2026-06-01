@@ -1,0 +1,4 @@
+#include "Segment.h"
+#include <stdexcept>
+#include <iostream>
+#include "Aux.h"

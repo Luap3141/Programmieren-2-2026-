@@ -1,0 +1,26 @@
+#include "Segment.h"
+#include <stdexcept>
+#include <iostream>
+#include "Aux.h"
+
+bool collides(Segment &other) {
+      if (angle() == other.angle()) {
+         throw 123;
+      }
+      //Solve a + mu*b = c + lambda*d with
+      //a = (x0,y0)
+      //c = (other.x0,other.y0)
+      //b = (run(),rise())
+      //d = (other.run),other.rise())
+      double det = run() * other.rise() - rise() * other.run(); //determinant of matrix
+      double mu = (other.rise() * (other.x0 - x0)
+            - other.run() * (other.y0 - y0)) / det;
+      double lambda = (run() * (other.y0 - y0) - rise() * (other.x0 - x0))
+            / det;
+      if ((0 <= mu) && (mu <= 1) && (-1 <= lambda) && (lambda <= 0)) {
+         x1 = x0 + mu * run();
+         y1 = y0 + mu * rise();
+         return true;
+      }
+      return false;
+   }

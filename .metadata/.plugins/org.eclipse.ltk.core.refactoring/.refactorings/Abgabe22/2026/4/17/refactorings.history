@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename resource &apos;Abgabe22/DistPolycpp&apos; to &apos;DistPolyMain.cpp&apos;" description="Rename resource &apos;DistPolycpp&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="DistPolycpp" name="DistPolyMain.cpp" stamp="1776946307501" updateReferences="true"/>
+</session>

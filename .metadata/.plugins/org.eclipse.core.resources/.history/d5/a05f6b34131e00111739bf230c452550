@@ -1,0 +1,26 @@
+#include <iostream>
+#include <cstdlib>
+#include <cmath>
+#include "Drawing.h"
+using namespace std;
+using namespace compsys;
+
+int main(int argc, const char* argv[])
+{
+beginDrawing(1000, 500, "Laser", 0xFFFFFF);
+//Segment ray; int n; Segment *mirrors;
+//init(argc, argv, ray, n, mirrors);
+//drawMirrors(n, mirrors);
+for (int i=0; i<10; i++)
+{
+//Segment ray0;
+//reflectRay(n, mirrors, ray, ray0);
+//drawRay(ray);
+//ray = ray0;
+}
+//delete[] mirrors;
+cout << "Close window to exit..." << endl;
+endDrawing();
+}
+
+

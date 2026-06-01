@@ -1,0 +1,162 @@
+#include "Segment.h"
+#include "Drawing.h"
+#include "Aux.h"
+#include <cmath>
+#include <iostream>
+#include <random>
+#include <fstream>
+
+using namespace compsys;
+using namespace std;
+
+/*
+ * reflectRayOld(n,mirrors,ray,ray0)
+ * n is number of mirrors.
+ * checks which mirror ray is going to collide with first
+ * calculates the collision point
+ * sets the end of ray to the collision point
+ * doesn't yet set ray0 (which is the reflected ray) correctly
+ */
+void reflectRayOld(int n, Segment *&mirrors, Segment &ray, Segment &ray0);
+
+/*
+ * reflectRay(n,mirrors,ray,ray0)
+ * n is number of mirrors.
+ * checks which mirror ray is going to collide with first
+ * calculates the collision point
+ * sets the end of ray to the collision point
+ * starts ray0 at collision point and sets the trajectory correctly.
+ * ray0 will have a lenght of 1 (up to some numerical imprecision)
+ */
+void reflectRay(int n, Segment *&mirrors, Segment &ray, Segment &ray0);
+
+void reflectRayOld(int n, Segment *&mirrors, Segment &ray, Segment &ray0) {
+   double VelocityX = (ray.run()) / ray.length();
+   double VelocityY = (ray.rise()) / ray.length();
+   ray.x1 = ray.x0 + VelocityX;
+   ray.y1 = ray.y0 + VelocityY;
+   while (true) {
+      for (int i = 0; i < n; i++) {
+         if (ray.collides(mirrors[i])) {
+            ray0.x0 = 1;
+            ray0.x1 = 100;
+            ray0.y0 = 1;
+            ray0.y1 = 100;
+            return;
+         }
+      }
+      ray.x1 += VelocityX;
+      ray.y1 += VelocityY;
+   }
+}
+
+void reflectRay(int n, Segment *&mirrors, Segment &ray, Segment &ray0) {
+   double VelocityX = (ray.run()) / ray.length();
+   double VelocityY = (ray.rise()) / ray.length();
+   ray.x1 = ray.x0 + VelocityX;
+   ray.y1 = ray.y0 + VelocityY;
+   while (true) {
+      for (int i = 0; i < n; i++) {
+         if (ray.collides(mirrors[i])) {
+
+            double r, a;
+            toPolar(-VelocityX, -VelocityY, r, a);
+            a -= mirrors[i].angle();
+            toCartesian(r, a, VelocityX, VelocityY);
+            VelocityX = -VelocityX;
+            toPolar(VelocityX, VelocityY, r, a);
+            a += mirrors[i].angle();
+            toCartesian(r, a, VelocityX, VelocityY);
+
+            //Ray 0 is instantly offset by a little such that the ray doesn't hit the same mirror twice
+            ray0.x0 = ray.x1 + VelocityX;
+            ray0.y0 = ray.y1 + VelocityY;
+            ray0.x1 = ray0.x0 + VelocityX;
+            ray0.y1 = ray0.y0 + VelocityY;
+
+            return;
+         }
+      }
+      ray.x1 += VelocityX;
+      ray.y1 += VelocityY;
+   }
+}
+
+void drawRay(Segment &ray) {
+   double S = 2;
+   double VelocityX = S * (ray.run()) / ray.length();
+   double VelocityY = S * (ray.rise()) / ray.length();
+   double CurrentX = ray.x0;
+   double CurrentY = ray.y0;
+   for (int i = 0; i < ray.length() / S - 1; i++) {
+      drawLine(CurrentX, CurrentY, CurrentX + VelocityX, CurrentY + VelocityY,
+            color(CurrentX, CurrentY));
+      CurrentX += VelocityX;
+      CurrentY += VelocityY;
+   }
+   drawLine(CurrentX, CurrentY, ray.x1, ray.y1, color(CurrentX, CurrentY));
+   fillEllipse(ray.x1 - 5, ray.y1 - 5, 10, 10, color(ray.x1, ray.y1), 0x000000);
+}
+
+void init(int argc, const char **argv, Segment &ray, int &n,
+      Segment *&mirrors) {
+   if (argc == 1) {
+
+      //everything gets random numbers
+
+      int W = getWidth();
+      int H = getHeight();
+      default_random_engine rng;
+      random_device rand_dev;
+      rng.seed(rand_dev());
+
+      uniform_int_distribution<int> Number(5, 15);
+      uniform_int_distribution<int> Xcoord(0, W);
+      uniform_int_distribution<int> Ycoord(0, H);
+
+      n = Number(rng);
+      mirrors = new Segment[n];
+
+      for (int i = 0; i < n - 4; i++) {
+         mirrors[i] = Segment(Xcoord(rng), Ycoord(rng), Xcoord(rng),
+               Ycoord(rng));
+      }
+      mirrors[n - 4] = Segment(0, 0, 0, H);
+      mirrors[n - 3] = Segment(0, 0, W, 0);
+      mirrors[n - 2] = Segment(0, H, W, H);
+      mirrors[n - 1] = Segment(W, 0, W, H);
+
+      ray = Segment(Xcoord(rng), Ycoord(rng), Xcoord(rng), Ycoord(rng));
+   } else {
+      //code for reading file
+      fstream in(argv[1], std::fstream::in);
+      if (!in) {
+         return;
+      }
+      int x0;
+      int x1;
+      int y0;
+      int y1;
+      in >> std::skipws;
+      in >> x0 >> y0 >> x1 >> y1;
+      ray = Segment(x0, y0, x1, y1);
+      in >> n;
+      mirrors = new Segment[n];
+      for (int i = 0; i < n; i++) {
+         in >> x0 >> y0 >> x1 >> y1;
+         mirrors[i] = Segment(x0, y0, x1, y1);
+      }
+   }
+   cout << ray << std::endl;
+   cout << n << std::endl;
+   for (int i = 0; i < n; i++) {
+      cout << mirrors[i] << std::endl;
+   }
+}
+
+void drawMirrors(int n, Segment *&mirrors) {
+   for (int i = 0; i < n; i++) {
+      drawLine(mirrors[i].x0, mirrors[i].y0, mirrors[i].x1, mirrors[i].y1,
+            0x008FFF);
+   }
+}

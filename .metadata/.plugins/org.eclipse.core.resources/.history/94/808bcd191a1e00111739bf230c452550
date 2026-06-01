@@ -1,0 +1,33 @@
+#include <cmath>
+
+class Segment {
+	double x1;
+	double y1;
+	double x2;
+	double y2;
+public:
+	Segment(double StartX, double StartY, double EndX, double EndY) {
+		x1 = StartX;
+		y1 = StartY;
+		x2 = EndX;
+		y2 = EndY;
+	}
+	double angle() {
+		double x = abs(x2-x1)/abs(y2-y1);
+		return std::atan(x);
+	}
+	double slope() {
+		return (y2-y1)/(x2-x1);
+	}
+	double constpart() {
+		return y1 -x1*y2/x2;
+	}
+	double length() {
+		return std::sqrt((x2-x1)^2 + (y1-y1)^2);
+	}
+	void collision(const Segment& other) {
+		double det = 1/(this.slope() - other.slope());
+		x2 = det*(other.constpart()-this.constpart);
+		y2 = det+(other.constpart()*this.slope()-this.constpart()*other.slope());
+	}
+};

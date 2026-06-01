@@ -1,0 +1,35 @@
+/*
+ * TemplateRecursive.cpp
+ *
+ *  Created on: May 29, 2026
+ *      Author: luap314
+ */
+
+#include "TemplateRecursive.h"
+#include <string>
+#include <stdexcept>
+
+template<class Ring> void RecPoly<Ring>::sanitize() {
+	for (auto i = coeffs.length() - 1; i >= 0; i--) {
+		if (coeffs[i] != 0)
+			return;
+		}
+		coeffs.pop_back();
+	}
+}
+
+template<class Ring> RecPoly* RecPoly<Ring>::operator+(RecPoly &other) {
+	if (this->variable != other->variable) {
+		//Maybe more refined behaviour can be added later
+		throw invalid_argument("Polynomials of different variable added")
+	}
+	vector<Ring> output(max(this->coeffs.size(),other->coeffs.size()));
+	if (this->coeffs.size() < other->coeffs.size()) {
+		for (auto i = 0; i < this->coeffs.size(); i++) {
+			output[i] = this->coeffs[i] + other->coeffs[i];
+		}
+		for (auto i = this->coeffs.size(); i < other->coeffs.size(); i++) {
+			output[i] = other.coeffs[i];
+		}
+	}
+}

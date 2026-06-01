@@ -1,0 +1,14 @@
+/*
+ * TemplateRecursive.cpp
+ *
+ *  Created on: May 29, 2026
+ *      Author: luap314
+ */
+
+#include "TemplateRecursive.h"
+
+void RecPoly::sanitize() {
+
+}
+
+

@@ -1,0 +1,14 @@
+class Segment {
+	double x1;
+	double y1;
+	double x2;
+	double y2;
+public:
+	Segment(double StartX, double StartY, double EndX, double EndY) {
+		x1 = StartX;
+		y1 = StartY;
+		x2 = EndX;
+		y2 = EndY;
+	}
+
+}

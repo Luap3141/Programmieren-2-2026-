@@ -1,0 +1,82 @@
+#include <cmath>
+#include <stdexcept>
+#include <iostream>
+#include "Aux.h"
+
+#ifndef _Segment_
+
+#define _Segment_
+
+class Segment {
+
+public:
+   double x0;
+   double y0;
+   double x1;
+   double y1;
+
+   Segment() {
+   }
+   Segment(double StartX, double StartY, double EndX, double EndY) {
+      x0 = StartX;
+      y0 = StartY;
+      x1 = EndX;
+      y1 = EndY;
+   }
+
+   friend std::ostream& operator<<(std::ostream &os, const Segment &s) {
+      os << floor(s.x0) << " " << floor(s.y0) << " " << floor(s.x1) << " "
+            << floor(s.y1);
+      return os;
+   }
+
+   const double length() {
+      return std::sqrt(std::pow((x1 - x0), 2) + std::pow((y1 - y0), 2));
+   }
+
+   const double run();
+
+   const double rise();
+
+   const double angle();
+
+   bool collides(Segment &other);
+};
+
+bool Segment::collides(Segment &other) {
+   if (angle() == other.angle()) {
+      throw 123;
+   }
+   //Solve a + mu*b = c + lambda*d with
+   //a = (x0,y0)
+   //c = (other.x0,other.y0)
+   //b = (run(),rise())
+   //d = (other.run),other.rise())
+   double det = run() * other.rise() - rise() * other.run(); //determinant of matrix
+   double mu = (other.rise() * (other.x0 - x0)
+         - other.run() * (other.y0 - y0)) / det;
+   double lambda = (run() * (other.y0 - y0) - rise() * (other.x0 - x0))
+         / det;
+   if ((0 <= mu) && (mu <= 1) && (-1 <= lambda) && (lambda <= 0)) {
+      x1 = x0 + mu * run();
+      y1 = y0 + mu * rise();
+      return true;
+   }
+   return false;
+}
+
+const double Segment::run() {
+   return x1 - x0;
+}
+
+const double Segment::rise() {
+     return y1 - y0;
+  }
+
+const double Segment::angle()  {
+   return std::atan2(rise(), run());
+}
+
+
+
+#endif

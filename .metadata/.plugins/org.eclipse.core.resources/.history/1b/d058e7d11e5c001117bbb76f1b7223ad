@@ -1,0 +1,12 @@
+/*
+ * TemplateRecursiveMain.cpp
+ *
+ *  Created on: May 29, 2026
+ *      Author: luap314
+ */
+
+#include "TemplateRecursive.h"
+
+int main() {
+	return 0;
+}

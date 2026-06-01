@@ -1,0 +1,19 @@
+/*
+ * TemplateRecursive.cpp
+ *
+ *  Created on: May 29, 2026
+ *      Author: luap314
+ */
+
+#include "TemplateRecursive.h"
+
+template<class Ring> void RecPoly<Ring>::sanitize() {
+	Ring zero = zero.zero();
+	for (int i = coeffs.length() - 1; i >= 0; i--) {
+		if (coeffs[i] ==
+			return
+		}
+	}
+}
+
+
