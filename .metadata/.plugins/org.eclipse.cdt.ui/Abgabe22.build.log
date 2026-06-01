@@ -1,0 +1,20 @@
+10:35:00 **** Incremental Build of configuration Debug for project Abgabe22 ****
+make all 
+Building file: ../DistPoly.cpp
+Invoking: Cross G++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"DistPoly.d" -MT"DistPoly.o" -o "DistPoly.o" "../DistPoly.cpp"
+Finished building: ../DistPoly.cpp
+ 
+Building file: ../DistPolyMain.cpp
+Invoking: Cross G++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"DistPolyMain.d" -MT"DistPolyMain.o" -o "DistPolyMain.o" "../DistPolyMain.cpp"
+Finished building: ../DistPolyMain.cpp
+ 
+Building target: Abgabe22
+Invoking: Cross G++ Linker
+g++  -o "Abgabe22" ./DistPoly.o ./DistPolyMain.o   
+Finished building target: Abgabe22
+ 
+
+10:35:01 Build Finished. 0 errors, 0 warnings. (took 1s.130ms)
+
