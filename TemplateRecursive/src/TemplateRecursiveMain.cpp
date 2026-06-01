@@ -14,8 +14,8 @@ using namespace std;
 int main() {
 	vector<Integer> d1 = {1,10,5};
 	vector<Integer> d2 = {3,10,5,4};
-	RecPoly<Integer> p1;
-	RecPoly<Integer> p2;
+	RecPoly<Integer> p1(d1, "x");
+	RecPoly<Integer> p2(d2, "x");
 
 
 	return 0;

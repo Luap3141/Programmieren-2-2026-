@@ -1,0 +1,22 @@
+/*
+ * TemplateRecursiveMain.cpp
+ *
+ *  Created on: May 29, 2026
+ *      Author: luap314
+ */
+
+#include "TemplateRecursive.h"
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+int main() {
+	vector<Integer> d1 = {1,10,5};
+	vector<Integer> d2 = {3,10,5,4};
+	RecPoly<Integer> p1;
+	RecPoly<Integer> p2;
+
+
+	return 0;
+}

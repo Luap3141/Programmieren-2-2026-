@@ -18,7 +18,7 @@ template<class Ring> class RecPoly {
 	string variable;
 public:
 	RecPoly() : coeffs({}), variable("x") {};
-	RecPoly(vector<Ring> newCoeffs, string newVar);
+	RecPoly(vector<Ring> newCoeffs, string newVar) {coeffs = newCoeffs; variable = newVar;}
 	RecPoly* clone();
 	string str();
 	static RecPoly* zero();

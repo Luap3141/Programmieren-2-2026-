@@ -31,5 +31,5 @@ org.eclipse.launchbar.core.descriptorType.default\:Final\ Debug\ (2)/activeLaunc
 org.eclipse.launchbar.core.descriptorType.default\:Final\ Debug/activeLaunchMode=debug
 org.eclipse.launchbar.core.descriptorType.default\:Final\ Debug/activeLaunchTarget=org.eclipse.launchbar.core.launchTargetType.local\:Local
 org.eclipse.launchbar.core.descriptorType.default\:RecPoly\ Debug/activeLaunchMode=debug
-org.eclipse.launchbar.core.descriptorType.default\:TemplateRecursive\ Debug/activeLaunchMode=debug
+org.eclipse.launchbar.core.descriptorType.default\:TemplateRecursive\ Debug/activeLaunchMode=run
 org.eclipse.launchbar.core.descriptorType.default\:Test2\ Debug\ (1)/activeLaunchMode=run
