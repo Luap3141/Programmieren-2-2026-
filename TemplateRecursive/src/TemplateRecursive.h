@@ -9,6 +9,7 @@
 #define TEMPLATERECURSIVE_H_
 
 #include <vector>
+#include <iostream>
 #include <string>
 
 using namespace std;
@@ -19,15 +20,87 @@ template<class Ring> class RecPoly {
 public:
 	RecPoly() : coeffs({}), variable("x") {};
 	RecPoly(vector<Ring> newCoeffs, string newVar) {coeffs = newCoeffs; variable = newVar;}
-	RecPoly* clone();
-	string str();
+	RecPoly* clone() {return new RecPoly(coeffs, variable);}
+	string str() {
+		if (coeffs.size() == 0) {
+			return "";
+		}
+		if (coeffs.size() == 1) {
+			return coeffs[0].str();
+		}
+		string out = "(" + coeffs[0].str() + " + ";
+		for (unsigned i = 1; i < coeffs.size() - 1; i++) {
+			out += coeffs[i].str() + variable + "^" + to_string(i) + " + ";
+		}
+		out += coeffs.back().str() + variable + "^" + to_string(coeffs.size()-1) + ")";
+		return out;
+	}
 	static RecPoly* zero();
 	RecPoly* operator-();
-	RecPoly* operator+(RecPoly &other);
-	RecPoly* operator*(RecPoly &other);
-	bool operator==(RecPoly &other);
-	int degree() {return coeffs.length() + 1;}
-	void sanitize();
+	RecPoly* operator+(RecPoly &other) {
+		if (this->variable != other.variable) {
+			//Maybe more refined behaviour can be added later
+			throw invalid_argument("Polynomials of different variable added");
+		}
+		vector<Ring> output(max(this->coeffs.size(),other.coeffs.size()));
+		if (this->coeffs.size() < other.coeffs.size()) {
+			for (unsigned i = 0; i < this->coeffs.size(); i++) {
+				output[i] = *(this->coeffs[i] + other.coeffs[i]);
+			}
+			for (unsigned i = this->coeffs.size(); i < other.coeffs.size(); i++) {
+				output[i] = other.coeffs[i];
+			}
+		} else {
+			for (unsigned i = 0; i < other.coeffs.size(); i++) {
+					output[i] = *(this->coeffs[i] + other.coeffs[i]);
+				}
+				for (auto i = other.coeffs.size(); i < this->coeffs.size(); i++) {
+					output[i] = this->coeffs[i];
+				}
+		}
+		RecPoly* out = new RecPoly(output,this->variable);
+		out->sanitize();
+		return out;
+	}
+	RecPoly* operator*(RecPoly &other) {
+		if (this->variable != other.variable) {
+			//Maybe more refined behaviour can be added later
+			throw invalid_argument("Polynomials of different variable multiplied");
+		}
+		vector<Ring> output(this->coeffs.size() + other.coeffs.size());
+		for (unsigned i = 0; i < this->coeffs.size(); i++) {
+			for (unsigned j = 0; j < other.coeffs.size(); j++) {
+				Ring* summand = this->coeffs[i] + other.coeffs[j];
+				output[j+i] = *(output[j+i] + *summand);
+			}
+		}
+		RecPoly* out = new RecPoly(output,this->variable);
+		//For safety, we remove leading zeros. Algebra tells us that there are none, other than in extreme edge cases.
+		out->sanitize();
+		return out;
+	}
+	bool operator==(RecPoly &other) {
+		if (this->variable != other.variable || this->coeffs.size() != other.coeffs.size()) {
+			//more refined behaviour could be added later
+			return false;
+		}
+		for (auto i = 0; i < this->coeffs.size(); i++) {
+			if (!(this->coeffs[i] == other.coeffs[i])) {
+				return false;
+			}
+		}
+		return true;
+	}
+	int degree() {return coeffs.size() + 1;}
+	void sanitize() {
+		//brings polynomial into canonical form (in this ase, just removes leading zeroes.
+		for (auto i = coeffs.size() - 1; i >= 0; i--) {
+		if (!(coeffs[i] == *Ring::zero())) {
+			return;
+		}
+		coeffs.pop_back();
+		}
+	}
 };
 
 class Integer {

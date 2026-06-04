@@ -1,0 +1,58 @@
+/*
+ * TemplateRecursive.h
+ *
+ *  Created on: May 29, 2026
+ *      Author: luap314
+ */
+
+#ifndef TEMPLATERECURSIVE_H_
+#define TEMPLATERECURSIVE_H_
+
+#include <vector>
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+template<class Ring> class RecPoly {
+	vector<Ring> coeffs;
+	string variable;
+public:
+	RecPoly() : coeffs({}), variable("x") {};
+	RecPoly(vector<Ring> newCoeffs, string newVar) {coeffs = newCoeffs; variable = newVar;}
+	RecPoly* clone();
+	string str() {
+		if (coeffs.size() == 1) {
+			return coeffs[0];
+		}
+		string out = "(";
+		for (unsigned i = 0; i < coeffs.size() - 1; i++) {
+			out += coeffs[i].str() + variable + "^" + to_string(i) + " + ";
+		}
+		out += coeffs.back().str() + variable + "^" + to_string(coeffs.size()) + ")";
+		return out;
+	}
+	static RecPoly* zero();
+	RecPoly* operator-();
+	RecPoly* operator+(RecPoly &other);
+	RecPoly* operator*(RecPoly &other);
+	bool operator==(RecPoly &other);
+	int degree() {return coeffs.length() + 1;}
+	void sanitize();
+};
+
+class Integer {
+	int value = 0;
+public:
+	Integer() {};
+	Integer(int n) {value = n;}
+	Integer* clone() {return new Integer(value);}
+	static Integer* zero() {return new Integer(0);}
+	Integer* operator-() {return new Integer(-value);}
+	Integer* operator+(Integer& other) {return new Integer(value + other.value);}
+	Integer* operator*(Integer &other) {return new Integer(value * other.value);}
+	bool operator==(Integer &other) {return value == other.value;}
+	string str() {return to_string(value);}
+};
+
+#endif /* TEMPLATERECURSIVE_H_ */

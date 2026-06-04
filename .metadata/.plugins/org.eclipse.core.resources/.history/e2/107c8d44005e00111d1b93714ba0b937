@@ -1,0 +1,30 @@
+/*
+ * TemplateRecursiveMain.cpp
+ *
+ *  Created on: May 29, 2026
+ *      Author: luap314
+ */
+
+#include "TemplateRecursive.h"
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+int main() {
+	//That actually calls the correct constructor for the integers;
+	vector<Integer> d1 = {1,10,5};
+	vector<Integer> d2 = {3,10,5,4};
+	RecPoly<Integer> p1(d1, "x");
+	RecPoly<Integer> p2(d2, "x");
+	cout << p1.str() << endl;
+	vector<RecPoly<Integer>> c1 = {p1,p2};
+	RecPoly<RecPoly<Integer>> q1(c1, "y");
+	cout << q1.str();
+	p1 = p2 + p2;
+	cout << p1.str();
+
+
+
+	return 0;
+}
