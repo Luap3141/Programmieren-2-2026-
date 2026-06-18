@@ -4,15 +4,12 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 CPP_SRCS += \
-../src/TemplateRecursive.cpp \
 ../src/TemplateRecursiveMain.cpp 
 
 CPP_DEPS += \
-./src/TemplateRecursive.d \
 ./src/TemplateRecursiveMain.d 
 
 OBJS += \
-./src/TemplateRecursive.o \
 ./src/TemplateRecursiveMain.o 
 
 
@@ -28,7 +25,7 @@ src/%.o: ../src/%.cpp src/subdir.mk
 clean: clean-src
 
 clean-src:
-	-$(RM) ./src/TemplateRecursive.d ./src/TemplateRecursive.o ./src/TemplateRecursiveMain.d ./src/TemplateRecursiveMain.o
+	-$(RM) ./src/TemplateRecursiveMain.d ./src/TemplateRecursiveMain.o
 
 .PHONY: clean-src
 
